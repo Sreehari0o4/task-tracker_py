@@ -1,15 +1,33 @@
-const args = process.argv
-/* 
-process.argv is an array that holds all command-line arguments.
+const fs = require('fs');
 
-The first two items are always:
-The path to Node.js
-The path to your script
+function loadTasks(){
+    try {
+        const data = fs.readFileSync('tasks.json', 'utf-8');
+        return JSON.parse(data).tasks;
+    } catch(err){
+        return [];
+    }
+}// Load tasks from tasks.json
 
-Any arguments after that are your actual inputs.
+function saveTasks(tasks){
+    fs.writeFileSync('tasks.json', JSON.stringify({tasks}, null, 2));
+}// Save tasks to tasks.json
 
-*/
+const command = process.argv[2];
+// Get the command from the command line arguments
 
-console.log("Full arguments:", args);
-console.log("Command:",args[2]);
-console.log("Task:",args[3]);
+if (command === 'add'){
+    const newTask = process.argv[3];
+    const tasks = loadTasks();
+    tasks.push(newTask);
+    saveTasks(tasks);
+    console.log(`Task added: ${newTask}`);
+}
+
+else if (command === 'list'){
+    const tasks = loadTasks();
+    console.log('Tasks:');
+    tasks.forEach((task, index) => {
+        console.log(`${index + 1}. ${task}`);
+    });
+}
