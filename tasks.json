@@ -1,6 +1,10 @@
 {
   "tasks": [
     "Practice coding",
-    "Read JS book"
+    "Read JS book",
+    {
+      "title": "eat food",
+      "status": "done"
+    }
   ]
 }

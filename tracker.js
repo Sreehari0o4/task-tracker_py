@@ -17,17 +17,38 @@ const command = process.argv[2];
 // Get the command from the command line arguments
 
 if (command === 'add'){
-    const newTask = process.argv[3];
+    const newTaskTitle = process.argv[3];
     const tasks = loadTasks();
+    const newTask = { title: newTaskTitle, status: 'pending' };
     tasks.push(newTask);
     saveTasks(tasks);
-    console.log(`Task added: ${newTask}`);
+    console.log(`Task added: ${newTaskTitle}`);
 }
 
-else if (command === 'list'){
+if (command === 'done'){
+    const taskNumber = parseInt(process.argv[3]);
+    const tasks = loadTasks();
+
+    if(tasks[taskNumber -1]){
+        tasks[taskNumber -1].status = 'done';
+        saveTasks(tasks);
+        console.log(`Marked task #${taskNumber} as done.`);
+    } else {
+        console.log("here is no task with that number.");
+    }
+
+} 
+
+if (command === 'list'){
     const tasks = loadTasks();
     console.log('Tasks:');
-    tasks.forEach((task, index) => {
-        console.log(`${index + 1}. ${task}`);
+    tasks.forEach((task, i) => {
+        if (typeof task === 'string') {
+      // handle old tasks
+      console.log(`${i + 1}. 🕓 ${task}`);
+    } else {
+      const symbol = task.status === 'done' ? '✅' : '🕓';
+      console.log(`${i + 1}. ${symbol} ${task.title}`);
+    }
     });
 }
