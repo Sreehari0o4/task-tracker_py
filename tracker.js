@@ -32,9 +32,9 @@ if (command === 'done'){
     if(tasks[taskNumber -1]){
         tasks[taskNumber -1].status = 'done';
         saveTasks(tasks);
-        console.log(`Marked task #${taskNumber} as done.`);
+        console.log(`Marked task #${taskNumber} as done✅`);
     } else {
-        console.log("here is no task with that number.");
+        console.log("here is no task with that number❌");
     }
 
 } 
